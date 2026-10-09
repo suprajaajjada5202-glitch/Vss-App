@@ -11,6 +11,7 @@ import {
   SquareUser,
   Users,
   ListTodo,
+  SquareKanban,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,7 @@ const NAV = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/employees", label: "Employees", icon: Users },
   { href: "/tasks", label: "Tasks", icon: ListTodo },
+  { href: "/board", label: "Board", icon: SquareKanban },
   { href: "/chat", label: "Team chat", icon: MessageSquare },
   { href: "/notifications", label: "Notifications", icon: Bell },
   { href: "/reports", label: "Reports", icon: PieChart },

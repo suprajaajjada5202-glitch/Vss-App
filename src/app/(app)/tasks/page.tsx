@@ -68,11 +68,16 @@ export default async function TasksPage({
             : "Tasks assigned to you. The stripe on the left shows priority."
         }
         actions={
-          canCreateTasks(user.role) ? (
-            <Link href="/tasks/new">
-              <Button>New task</Button>
+          <>
+            <Link href="/board">
+              <Button variant="ghost">Board view</Button>
             </Link>
-          ) : null
+            {canCreateTasks(user.role) ? (
+              <Link href="/tasks/new">
+                <Button>New task</Button>
+              </Link>
+            ) : null}
+          </>
         }
       />
 

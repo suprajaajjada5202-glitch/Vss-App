@@ -29,6 +29,7 @@ function parseAssignees(raw?: string) {
 
 function refreshTaskPages(taskId?: string) {
   revalidatePath("/tasks");
+  revalidatePath("/board");
   revalidatePath("/dashboard");
   revalidatePath("/reports");
   if (taskId) revalidatePath(`/tasks/${taskId}`);
