@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { changePassword, saveAvatarPath, updateProfile } from "@/lib/actions/profile";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Field, Input, Textarea } from "@/components/ui/field";
 import { Avatar } from "@/components/ui/avatar";
 import { formatDate } from "@/lib/utils";
@@ -176,13 +177,12 @@ export function ProfileEditor({
         >
           <h2 className="text-lg font-medium">Change password</h2>
           <Field label="Current password" htmlFor="currentPassword">
-            <Input id="currentPassword" name="currentPassword" type="password" autoComplete="current-password" required />
+            <PasswordInput id="currentPassword" name="currentPassword" autoComplete="current-password" required />
           </Field>
           <Field label="New password" htmlFor="nextPassword" hint="At least 8 characters.">
-            <Input
+            <PasswordInput
               id="nextPassword"
               name="nextPassword"
-              type="password"
               autoComplete="new-password"
               minLength={8}
               maxLength={72}

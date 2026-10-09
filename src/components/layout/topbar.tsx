@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Menu, Moon, Search, Sun } from "lucide-react";
+import { Bell, Menu, Moon, PanelLeftClose, PanelLeftOpen, Search, Sun } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,8 @@ import type { SessionUser } from "@/lib/types";
 export function Topbar({ user, unread: serverUnread }: { user: SessionUser; unread: number }) {
   const { resolvedTheme, setTheme } = useTheme();
   const toggle = useUiStore((s) => s.toggleSidebar);
+  const collapsed = useUiStore((s) => s.sidebarCollapsed);
+  const toggleCollapsed = useUiStore((s) => s.toggleCollapsed);
   const router = useRouter();
   const [q, setQ] = useState("");
   const [signingOut, startSignOut] = useTransition();
@@ -27,6 +29,15 @@ export function Topbar({ user, unread: serverUnread }: { user: SessionUser; unre
     <header className="sticky top-0 z-20 flex items-center gap-2 border-b border-line bg-panel/90 px-3 py-3 backdrop-blur sm:gap-3 sm:px-4">
       <button className="p-1 lg:hidden" onClick={toggle} aria-label="Open navigation">
         <Menu size={20} />
+      </button>
+      <button
+        className="hidden h-10 w-10 shrink-0 items-center justify-center text-muted hover:text-ink lg:flex"
+        onClick={toggleCollapsed}
+        aria-label={collapsed ? "Expand menu" : "Collapse menu"}
+        aria-expanded={!collapsed}
+        title={collapsed ? "Expand menu" : "Collapse menu"}
+      >
+        {collapsed ? <PanelLeftOpen size={20} /> : <PanelLeftClose size={20} />}
       </button>
       <form
         role="search"

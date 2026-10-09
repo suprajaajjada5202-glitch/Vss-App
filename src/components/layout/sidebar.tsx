@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import {
   Activity,
   Bell,
@@ -32,7 +33,8 @@ const NAV = [
 
 export function Sidebar({ user }: { user: SessionUser }) {
   const pathname = usePathname();
-  const { sidebarOpen, setSidebar } = useUiStore();
+  const { sidebarOpen, setSidebar, sidebarCollapsed: collapsed, loadCollapsed } = useUiStore();
+  useEffect(loadCollapsed, [loadCollapsed]);
 
   return (
     <>
@@ -45,20 +47,26 @@ export function Sidebar({ user }: { user: SessionUser }) {
       ) : null}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-line bg-panel transition-transform lg:static lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 flex-col border-r border-line bg-panel transition-[transform,width] lg:sticky lg:top-0 lg:h-screen lg:translate-x-0",
+          collapsed && "lg:w-16",
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
-        <div className="flex items-center justify-between px-5 py-5">
-          <Link href="/dashboard" className="block" onClick={() => setSidebar(false)}>
-            <p className="font-mono text-[11px] tracking-[0.18em] text-teal">VSS PULSE</p>
-            <p className="text-lg font-semibold leading-tight">Employee Management</p>
+        <div className={cn("flex items-center justify-between px-5 py-5", collapsed && "lg:justify-center lg:px-0")}>
+          <Link href="/dashboard" className="block" onClick={() => setSidebar(false)} title="VSS Pulse">
+            <p className={cn("font-mono text-[11px] tracking-[0.18em] text-teal", collapsed && "lg:hidden")}>VSS PULSE</p>
+            <p className={cn("text-lg font-semibold leading-tight", collapsed && "lg:hidden")}>Employee Management</p>
+            {collapsed ? (
+              <span className="hidden h-9 w-9 items-center justify-center rounded-sm bg-teal font-mono text-sm font-medium text-white lg:flex">
+                VP
+              </span>
+            ) : null}
           </Link>
           <button className="lg:hidden" onClick={() => setSidebar(false)} aria-label="Close">
             <X size={18} />
           </button>
         </div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3" aria-label="Main">
+        <nav className={cn("flex-1 space-y-0.5 overflow-y-auto px-3", collapsed && "lg:px-2")} aria-label="Main">
           {NAV.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             const Icon = item.icon;
@@ -67,20 +75,23 @@ export function Sidebar({ user }: { user: SessionUser }) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setSidebar(false)}
+                title={collapsed ? item.label : undefined}
+                aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex items-center gap-3 border-l-2 px-3 py-2 text-sm transition",
+                  collapsed && "lg:justify-center lg:px-0",
                   active
                     ? "border-copper bg-paper text-ink"
                     : "border-transparent text-muted hover:bg-paper hover:text-ink"
                 )}
               >
-                <Icon size={16} />
-                {item.label}
+                <Icon size={collapsed ? 18 : 16} className="shrink-0" />
+                <span className={cn(collapsed && "lg:sr-only")}>{item.label}</span>
               </Link>
             );
           })}
         </nav>
-        <div className="border-t border-line px-5 py-4">
+        <div className={cn("border-t border-line px-5 py-4", collapsed && "lg:hidden")}>
           <p className="truncate text-sm font-medium">{user.fullName}</p>
           <p className="truncate font-mono text-xs capitalize text-muted">{user.role.replace("_", " ")}</p>
         </div>

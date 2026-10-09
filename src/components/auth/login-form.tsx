@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Field, Input } from "@/components/ui/field";
 import { safeNextPath } from "@/lib/utils";
 
@@ -63,7 +64,7 @@ export function LoginForm() {
         <Input id="email" name="email" type="email" required autoComplete="email" autoFocus />
       </Field>
       <Field label="Password" htmlFor="password">
-        <Input id="password" name="password" type="password" required autoComplete="current-password" />
+        <PasswordInput id="password" name="password" required autoComplete="current-password" />
       </Field>
       {error ? (
         <p role="alert" className="text-sm text-danger">

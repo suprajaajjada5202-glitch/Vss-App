@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Field, Input } from "@/components/ui/field";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Field } from "@/components/ui/field";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -55,10 +56,10 @@ export default function ResetPasswordPage() {
       ) : (
         <form onSubmit={onSubmit} className="mt-8 space-y-4">
           <Field label="New password" htmlFor="password" hint="At least 8 characters.">
-            <Input id="password" name="password" type="password" autoComplete="new-password" minLength={8} maxLength={72} required />
+            <PasswordInput id="password" name="password" autoComplete="new-password" minLength={8} maxLength={72} required />
           </Field>
           <Field label="Confirm new password" htmlFor="confirm">
-            <Input id="confirm" name="confirm" type="password" autoComplete="new-password" minLength={8} maxLength={72} required />
+            <PasswordInput id="confirm" name="confirm" autoComplete="new-password" minLength={8} maxLength={72} required />
           </Field>
           {error ? (
             <p role="alert" className="text-sm text-danger">
